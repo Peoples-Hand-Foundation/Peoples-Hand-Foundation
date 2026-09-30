@@ -1,0 +1,1 @@
+{"name":"peoples-hand-foundation-api","version":"1.0.0","private":true,"type":"module","scripts":{"dev":"node --watch src/server.js","start":"node src/server.js"},"dependencies":{"better-sqlite3":"latest","cors":"latest","dotenv":"^18.0.4","express":"latest","jsonwebtoken":"latest","multer":"^2.4.0","nodemailer":"^10.0.12"}}
