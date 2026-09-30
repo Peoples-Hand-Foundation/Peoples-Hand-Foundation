@@ -6902,4 +6902,4 @@ document.getElementById('root')
 
 </BrowserRouter>
 
-);
+); 
