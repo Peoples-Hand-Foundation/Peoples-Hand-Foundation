@@ -2468,7 +2468,7 @@ href="mailto:peopleshandfoundation@gmail.com"
 9014278099
 </a>
 
-<a href="https://wa.me/918328398818" target="_blank" rel="noreferrer">
+<a href="https://wa.me/918328398816" target="_blank" rel="noreferrer">
 8328398816
 </a>
 

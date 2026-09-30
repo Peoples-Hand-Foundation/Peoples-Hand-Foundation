@@ -1573,10 +1573,11 @@ app.get(
 
 app.listen(
   PORT,
+  "0.0.0.0",
   () => {
 
     console.log(
-      `People’s Hand API running on http://localhost:${PORT}`
+      `People’s Hand API running on port ${PORT}`
     );
 
   }
