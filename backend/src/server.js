@@ -1122,8 +1122,12 @@ app.post(
         });
       }
 
+      const BASE_URL =
+        process.env.PUBLIC_BASE_URL ||
+        `http://localhost:${PORT}`;
+      
       const fileUrl =
-        `http://localhost:${PORT}/uploads/${req.file.filename}`;
+        `${BASE_URL}/uploads/${req.file.filename}`;
 
       res.status(201).json({
         success: true,
