@@ -1460,11 +1460,15 @@ app.post(
       password
     } = req.body;
 
+    const ADMIN_EMAIL =
+      process.env.ADMIN_EMAIL;
+
+    const ADMIN_PASSWORD =
+      process.env.ADMIN_PASSWORD;
+
     if (
-      email ===
-        'admin@peopleshand.org' &&
-      password ===
-        'Admin@123'
+      email === ADMIN_EMAIL &&
+      password === ADMIN_PASSWORD
     ) {
 
       return res.json({
@@ -1488,7 +1492,6 @@ app.post(
 
   }
 );
-
 
 /* =========================================================
    ADMIN VERIFY
