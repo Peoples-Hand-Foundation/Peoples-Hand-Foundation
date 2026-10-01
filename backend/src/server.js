@@ -6,16 +6,12 @@ import jwt from 'jsonwebtoken';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 import { fileURLToPath } from 'url';
 
-const emailTransporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  }
-});
+const resend = new Resend(
+  process.env.RESEND_API_KEY
+);
 
 const app = express();
 
@@ -1390,41 +1386,66 @@ for (
               : "New Donation Submission - People's Hand Foundation";
 
           const emailBody = `
-${type === 'volunteer' ? 'New Volunteer Registration' : 'New Donation Submission'}
+${type === 'volunteer'
+  ? 'New Volunteer Registration'
+  : 'New Donation Submission'}
 
 ${Object.entries(req.body)
-  .map(([key, value]) => `${key}: ${value ?? ''}`)
+  .map(
+    ([key, value]) =>
+      `${key}: ${value ?? ''}`
+  )
   .join('\n')}
 
 Submitted from People's Hand Foundation website.
 `;
 
-          /* SEND EMAIL IN BACKGROUND */
-          emailTransporter.sendMail({
-            from: process.env.EMAIL_USER,
-            to: 'vinaykonda055@gmail.com',
+          /* SEND EMAIL USING RESEND */
+
+          resend.emails.send({
+            from:
+              "People's Hand Foundation <onboarding@resend.dev>",
+
+            to: [
+              'vinaykonda055@gmail.com'
+            ],
+
             subject: subject,
+
             text: emailBody
+
           })
-            .then(() => {
+          .then((result) => {
 
-              console.log(
-                `${type} email sent successfully`
-              );
-
-            })
-            .catch((emailError) => {
+            if (result.error) {
 
               console.error(
                 `${type} email failed:`,
-                emailError
+                result.error
               );
 
-            });
+              return;
+            }
+
+            console.log(
+              `${type} email sent successfully:`,
+              result.data
+            );
+
+          })
+          .catch((emailError) => {
+
+            console.error(
+              `${type} email failed:`,
+              emailError
+            );
+
+          });
 
         }
 
         /* RESPOND IMMEDIATELY */
+
         res.status(201).json({
           success: true
         });
