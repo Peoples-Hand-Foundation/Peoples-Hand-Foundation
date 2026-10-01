@@ -1122,12 +1122,8 @@ app.post(
         });
       }
 
-      const BASE_URL =
-        process.env.PUBLIC_BASE_URL ||
-        `http://localhost:${PORT}`;
-      
       const fileUrl =
-        `${BASE_URL}/uploads/${req.file.filename}`;
+        `http://localhost:${PORT}/uploads/${req.file.filename}`;
 
       res.status(201).json({
         success: true,
@@ -1403,30 +1399,32 @@ ${Object.entries(req.body)
 Submitted from People's Hand Foundation website.
 `;
 
-          try {
+          /* SEND EMAIL IN BACKGROUND */
+          emailTransporter.sendMail({
+            from: process.env.EMAIL_USER,
+            to: 'vinaykonda055@gmail.com',
+            subject: subject,
+            text: emailBody
+          })
+            .then(() => {
 
-            await emailTransporter.sendMail({
-              from: process.env.EMAIL_USER,
-              to: 'vinaykonda055@gmail.com',
-              subject: subject,
-              text: emailBody
+              console.log(
+                `${type} email sent successfully`
+              );
+
+            })
+            .catch((emailError) => {
+
+              console.error(
+                `${type} email failed:`,
+                emailError
+              );
+
             });
-
-            console.log(
-              `${type} email sent successfully`
-            );
-
-          } catch (emailError) {
-
-            console.error(
-              `${type} email failed:`,
-              emailError
-            );
-
-          }
 
         }
 
+        /* RESPOND IMMEDIATELY */
         res.status(201).json({
           success: true
         });
@@ -1449,7 +1447,6 @@ Submitted from People's Hand Foundation website.
   );
 
 }
-
 
 /* =========================================================
    ADMIN LOGIN
