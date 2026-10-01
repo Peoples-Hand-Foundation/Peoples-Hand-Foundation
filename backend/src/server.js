@@ -1407,7 +1407,7 @@ Submitted from People's Hand Foundation website.
               "People's Hand Foundation <onboarding@resend.dev>",
 
             to: [
-              'vinaykonda055@gmail.com'
+              'peopleshandfoundation@gmail.com'
             ],
 
             subject: subject,
