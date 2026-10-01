@@ -67,8 +67,7 @@ API
 ========================================================= */
 
 const API =
-import.meta.env.VITE_API_URL ||
-'http://localhost:5000/api';
+'https://peoples-hand-foundation-api.onrender.com/api';
 
 
 /* =========================================================
@@ -117,23 +116,39 @@ try {
 const response = await fetch(
 API + path,
 {
+...opts,
 headers: {
 'Content-Type': 'application/json',
 ...(opts.headers || {})
-},
-...opts
+}
 }
 );
 
 
+const text = await response.text();
+
+let data = null;
+
+try {
+
+data = text ? JSON.parse(text) : null;
+
+} catch {
+
+data = null;
+
+}
+
+
 if (!response.ok) {
 throw new Error(
+data?.message ||
 `API request failed: ${response.status}`
 );
 }
 
 
-return await response.json();
+return data;
 
 } catch (error) {
 
@@ -6902,4 +6917,4 @@ document.getElementById('root')
 
 </BrowserRouter>
 
-); 
+);
